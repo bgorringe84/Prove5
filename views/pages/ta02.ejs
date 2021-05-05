@@ -18,9 +18,9 @@
     <button type="submit">Add</button>
   </form>
   <br>
-  <% for(var i = 0; i < names.length; i++) { %>
-    <p><%= names[i] %></p>
-  <% } %>
+  <% names.forEach(name => { %>
+    <p><%= name %></p>
+  <% }) %>
   <form action="/ta02/removeUser" method="POST" >
     <label for="username">Username to Delete</label><br>
     <input type="text" name="username">
