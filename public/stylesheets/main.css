@@ -56,6 +56,7 @@
   width: auto;
   max-width: 100%;
   object-fit: cover;
+  
 }
 
 .card-body{
@@ -69,4 +70,70 @@
   padding-right: 17px;
   overflow: auto;
   box-sizing: content-box;
+}
+
+a.box-shadow,
+a.box-shadow:hover {
+  color:inherit;
+  text-decoration: none;
+}
+
+#price {
+  color: red;
+}
+
+a.active {
+  font-weight: bolder;
+}
+
+.img-fluid {
+  height: 100%;
+  max-height: 72px;
+  width: 100%;
+  max-width: 100px;
+}
+
+.list-group-item {
+  display: flex;
+}
+
+.zoom-constraint img {
+  transition: transform .2s;
+  transition-delay: .25s;
+  transition-timing-function: ease-out;
+}
+
+.zoom-constraint img:hover {
+  -ms-transform: scale(1.5); /* IE 9 */
+  -webkit-transform: scale(1.5); /* Safari 3-8 */
+  transform: scale(1.5);
+}
+
+.zoom-constraint {
+  overflow: hidden;
+}
+
+.borderless {
+  text-decoration: none;
+  border: none;
+  list-style-type: none;
+}
+
+#continue {
+  text-align: center;
+}
+
+.cartQuantityDisplay {
+  width: 2.5rem;
+  text-align: center;
+}
+
+.quantity-left-minus:hover{
+  background-color: #B01302;
+  color: white;
+}
+
+.quantity-right-plus:hover{
+  background-color: green;
+  color: white;
 }
