@@ -79,7 +79,7 @@ a.box-shadow:hover {
 }
 
 #price {
-  color: red;
+  color: darkorange;
 }
 
 a.active {
@@ -91,6 +91,12 @@ a.active {
   max-height: 72px;
   width: 100%;
   max-width: 100px;
+}
+
+#img-center {
+  display: flex;
+  align-content: center;
+  align-items: center;
 }
 
 .list-group-item {
@@ -113,10 +119,17 @@ a.active {
   overflow: hidden;
 }
 
-.borderless {
+.borderless, 
+.borderless-title {
   text-decoration: none;
   border: none;
   list-style-type: none;
+}
+
+.borderless-title {
+  color: darkorange;
+  font-weight: bold;
+  font-size: large;
 }
 
 #continue {
@@ -136,4 +149,8 @@ a.active {
 .quantity-right-plus:hover{
   background-color: green;
   color: white;
+}
+
+#create-order-btn {
+  margin: 1rem;
 }

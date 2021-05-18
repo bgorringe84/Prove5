@@ -13,24 +13,21 @@
 // Our initial setup (package requires, port number setup)
 const express = require('express');
 const path = require('path');
+const mongoose = require('mongoose');
 const PORT = process.env.PORT || 5000 // So we can run on heroku || (OR) localhost:5000
 
 const app = express();
 
-const mongoConnect = require('./util/database').mongoConnect;
 const User = require('./models/project/user');
 
 app.use((req, res, next) => {
-  User.findById('609cac4fac82291aa50e3140')
+  User.findById('60a1f515bddddf7944498cbd')
     .then( user => {
-      req.user = new User(user.name, user.email, user.cart, user._id);
+      req.user = user;
       next();
     })
-    .catch( err => {
-      console.log(err);
-    
-    })
-});
+    .catch(err => console.log(err));
+})
 
 // Route setup. You can implement more in the future!
 const ta01Routes = require('./routes/ta01');
@@ -58,6 +55,21 @@ app.use(express.static(path.join(__dirname, 'public')))
      res.render('pages/404', {title: '404 - Page Not Found', path: req.url})
    })
 
-mongoConnect(() => {
+mongoose
+.connect('mongodb+srv://brandon:L6qFXcP6dyQMRf2H@cluster0.waj0f.mongodb.net/myFirstDatabase?retryWrites=true&w=majority')
+.then(result => {
+  User.findOne().then(user => {
+    if (!user) {
+      const user = new User({
+    name: 'Brandon',
+    email: 'BrandonTest@test.com',
+    cart: {
+      items: []
+    }
+  });
+  user.save();
+    }
+  });
   app.listen(PORT, () => console.log(`Listening on ${ PORT }`));
-});
+})
+.catch(err => { console.log(err) });

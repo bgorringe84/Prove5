@@ -1,17 +1,18 @@
 const Car = require('../../models/project/car');
-const Cart = require('../../models/project/cart');
+const Order = require('../../models/project/order');
 
 exports.getCars = (req, res, next) => {
-   Car.fetchAll()
+   Car.find()
+   // .populate('userId')
    .then(cars => {
       res.render('pages/project/showRoom', {
          cars: cars,
          pageTitle: 'ShowRoom',
          path: '/project'
       })
-   .catch(err => {
-      console.log(err);
-      })
+   // .catch(err => {
+   //    console.log(err);
+   //    })
    });
 };
 
@@ -21,7 +22,7 @@ exports.getDetail = (req, res, next) => {
       .then( car => {
          res.render('pages/project/car-detail', {
             car: car,
-            pageTitle: 'cool',
+            pageTitle: car.name,
             path:'/cars'
          });
       })
@@ -32,8 +33,10 @@ exports.getDetail = (req, res, next) => {
 
 exports.getCart = (req, res, next) => {
    req.user
-      .getCart()
-      .then(cars => {
+      .populate('cart.items.carId')
+      .execPopulate()
+      .then(user => {
+         const cars = user.cart.items;
          res.render('pages/project/cart', {
             path: '/cart',
             pageTitle: 'Your Cart',
@@ -78,7 +81,43 @@ exports.postCartRemoveCar = (req, res, next) => {
 //          .catch(err => console.log(err));
 //    };
 
-
+exports.postOrder = (req, res, next) => {
+   req.user
+     .populate('cart.items.carId')
+     .execPopulate()
+     .then(user => {
+       const cars = user.cart.items.map(i => {
+         return { quantity: i.quantity, car: { ...i.carId._doc } };
+       });
+       const order = new Order({
+         user: {
+           name: req.user.name,
+           userId: req.user
+         },
+         cars: cars
+       });
+       return order.save();
+     })
+     .then(result => {
+       return req.user.clearCart();
+     })
+     .then(() => {
+       res.redirect('/orders');
+     })
+     .catch(err => console.log(err));
+ };
+ 
+ exports.getOrders = (req, res, next) => {
+    Order.find({"user.userId": req.user._id})
+     .then(orders => {
+       res.render('pages/project/orders', {
+         path: '/orders',
+         pageTitle: 'Your Orders',
+         orders: orders
+       });
+     })
+     .catch(err => console.log(err));
+ };
 
 
 // exports.postCartRemoveCar = (req, res, next) => {
