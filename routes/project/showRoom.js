@@ -10,7 +10,7 @@ router.get('/cars/:carId', showRoomController.getDetail);
 router.get('/cart', showRoomController.getCart);
 router.post('/cart', showRoomController.postCart);
 router.post('/cart-remove-car', showRoomController.postCartRemoveCar);
-// router.post('/increment-quantity', showRoomController.postCart);
+router.post('/increment-quantity', showRoomController.postCart);
 // router.post('/decrement-quantity', showRoomController.postDecreaseQuantity);
 router.post('/create-order', showRoomController.postOrder);
 router.get('/orders', showRoomController.getOrders);
