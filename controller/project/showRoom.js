@@ -3,16 +3,17 @@ const Order = require('../../models/project/order');
 
 exports.getCars = (req, res, next) => {
    Car.find()
-   // .populate('userId')
    .then(cars => {
       res.render('pages/project/showRoom', {
          cars: cars,
          pageTitle: 'ShowRoom',
-         path: '/project'
-      })
-   // .catch(err => {
-   //    console.log(err);
-   //    })
+         path: '/project',
+         isAuthenticated : req.session.isLoggedIn,
+         csrfToken: req.csrfToken()
+      });
+   })
+   .catch(err => {
+      console.log(err);
    });
 };
 
@@ -23,43 +24,42 @@ exports.getDetail = (req, res, next) => {
          res.render('pages/project/car-detail', {
             car: car,
             pageTitle: car.name,
-            path:'/cars'
+            path:'/cars',
+            isAuthenticated : req.session.isLoggedIn
          });
       })
       .catch(err => {
          console.log(err)});
 };
 
-
-exports.getCart = (req, res, next) => {
-   req.user
-      .populate('cart.items.carId')
-      .execPopulate()
-      .then(user => {
-         const cars = user.cart.items;
-         res.render('pages/project/cart', {
+   exports.getCart = (req, res, next) => {
+      req.user
+        .populate('cart.items.carId')
+        .execPopulate()
+        .then(user => {
+          const cars = user.cart.items;
+          res.render('pages/project/cart', {
             path: '/cart',
             pageTitle: 'Your Cart',
-            cars: cars
-         });
-      })
-      .catch(err => { console.log(err) });
-   };
-
-
+            cars: cars,
+            isAuthenticated: req.session.isLoggedIn
+          });
+        })
+        .catch(err => console.log(err));
+    };
 
 exports.postCart = (req, res, next) => {
    const carId = req.body.carId;
    Car.findById(carId)
-      .then( car => {
-        return req.user.addToCart(car);
-         
-   })
-   .then(result => {
-      console.log(result);
-      res.redirect('/cart');
-   });
-};
+     .then(car => {
+       return req.user.addToCart(car);
+     })
+     .then(result => {
+       console.log(result);
+       res.redirect('/cart');
+     })
+     .catch(err => console.log(err));
+ };
 
 exports.postCartRemoveCar = (req, res, next) => {
    const carId = req.body.carId;
@@ -73,7 +73,7 @@ exports.postCartRemoveCar = (req, res, next) => {
 
 // exports.postDecreaseQuantity = (req, res, next) => {
 //    const carQty = req.body.carQuantity;
-//          req.user
+//          req.session.user
 //          .removeSingleItemFromCart(carQty)
 //          .then(result => {
 //             res.redirect('/cart');
@@ -91,10 +91,10 @@ exports.postOrder = (req, res, next) => {
        });
        const order = new Order({
          user: {
-           name: req.user.name,
-           userId: req.user
+           name: req.session.user.name,
+           userId: req.session.user
          },
-         cars: cars
+         cars: cars,
        });
        return order.save();
      })
@@ -108,12 +108,13 @@ exports.postOrder = (req, res, next) => {
  };
  
  exports.getOrders = (req, res, next) => {
-    Order.find({"user.userId": req.user._id})
+    Order.find({"user.userId": req.session.user._id})
      .then(orders => {
        res.render('pages/project/orders', {
          path: '/orders',
          pageTitle: 'Your Orders',
-         orders: orders
+         orders: orders,
+         isAuthenticated : req.session.isLoggedIn
        });
      })
      .catch(err => console.log(err));

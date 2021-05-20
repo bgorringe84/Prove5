@@ -4,6 +4,10 @@
   
 } */
 
+body{
+  margin: 2.5rem;
+}
+
 .jumbotron {
   padding-top: 80px; 
   margin-bottom: 2rem;
@@ -132,9 +136,7 @@ a.active {
   font-size: large;
 }
 
-#continue {
-  text-align: center;
-}
+
 
 .cartQuantityDisplay {
   width: 2.5rem;
@@ -153,4 +155,8 @@ a.active {
 
 #create-order-btn {
   margin: 1rem;
+}
+
+#continue {
+  text-align: center;
 }

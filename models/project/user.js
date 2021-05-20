@@ -11,6 +11,10 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
+  password: {
+    type: String,
+    required: true
+  },
   cart: {
     items: [
       {
@@ -34,24 +38,25 @@ userSchema.methods.addToCart = function(car) {
       } else {
          updatedCartItems.push( { carId: car._id, quantity: newQuantity } );
       }
-      updatedCartItems
-      const updatedCart = {items: updatedCartItems };
+      const updatedCart = {
+        items: updatedCartItems
+      };
       this.cart = updatedCart;
       return this.save();
-}
+    };
 
 userSchema.methods.removeItemFromCart = function(carId) {
-         const updatedCartItems = this.cart.items.filter(item => {
-         return item.carId.toString() !== carId.toString();
-      });
-      this.cart.items = updatedCartItems;
-      return this.save();
-}
+  const updatedCartItems = this.cart.items.filter(item => {
+    return item.carId.toString() !== carId.toString();
+  });
+  this.cart.items = updatedCartItems;
+  return this.save();
+};
 
 userSchema.methods.clearCart = function() {
-   this.cart = {items: []};
-   return this.save();
-}
+  this.cart = { items: [] };
+  return this.save();
+};
 
 module.exports = mongoose.model('User', userSchema);
 
