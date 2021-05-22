@@ -1,0 +1,71 @@
+<%- include('../partials/header.ejs') %>
+<link rel="stylesheet" type="text/css" href="/stylesheets/forms.css" />
+</head>
+<body>
+   <%- include('../partials/nav.ejs') %>
+
+   <h1>Add Car Page</h1>
+   <form action="/add-car" method="POST">
+      <div class="form row">
+         <div class="col-md-3 mb-2">
+            <label for="name">Car Name</label>
+            <input type="text" class="form-control is-valid" name="name" id="name" placeholder="Car Name" required>
+            <div class="valid-feedback">
+               Looks good!
+            </div>
+         </div>
+         <div class="col-md-3 mb-2">
+            <label for="startDate">Production Start Date</label>
+            <input type="text" class="form-control is-valid" name="startDate" id="startDate" placeholder="Start Date" required>
+            <div class="valid-feedback">
+               Looks good!
+            </div>
+         </div>
+         <div class="col-md-3 mb-2">
+            <label for="endDate">Production End Date</label>
+            <input type="text" class="form-control is-valid" name="endDate" id="endDate" placeholder="End Date" value="Present" required>
+            <div class="valid-feedback">
+               Looks good!
+            </div>
+         </div>
+      </div>
+      <div class="form row">
+         <div class="col-md-2 mb-1">
+            <label for="number">Number</label>
+            <input type="text" class="form-control is-valid"  name="number" id="number" placeholder="Number" required>
+            <div class="valid-feedback">
+               Looks good!
+            </div>
+         </div>
+         <div class="col-md-2 mb-1">
+            <label for="price">Price</label>
+            <input type="text" class="form-control is-valid" name="price" id="price" placeholder="Price" required>
+            <div class="valid-feedback">
+               Looks good!
+            </div>
+         </div>
+      </div>
+      <div class="form row">
+         <div class="col-md-6 mb-7">
+            <label for="imgUrl">Image URL</label>
+            <input type="text" class="form-control is-valid" name="imgUrl" id="imgUrl" placeholder="image URL" required>
+            <div class="valid-feedback">
+               Looks good!
+            </div>
+         </div>
+      </div>
+      <div class="form row">
+         <div class="col-md-6 mb-7">
+            <label for="descripton">Description</label>
+            <textarea name="description" rows="5" name="description" class="form-control is-valid" id="descripton" placeholder="description" required></textarea>
+            <div class="valid-feedback">
+               Looks good!
+            </div>
+         </div>
+      </div>
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <button type="submit" class="btn btn-sm btn-outline-secondary">Add Car</button>
+
+   </form>
+
+   <%- include('../partials/footer.ejs') %>

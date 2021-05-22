@@ -29,6 +29,7 @@ const ta03Routes = require('./routes/ta03');
 const ta04Routes = require('./routes/ta04'); 
 const projectRoutes = require('./routes/project/showRoom');
 const authRoutes = require('./routes/project/auth');
+const adminRoutes = require('./routes/project/admin');
 
 app.use(express.urlencoded({extended: false})) // For parsing the body of a POST
 app.use(express.static(path.join(__dirname, 'public')))
@@ -62,6 +63,7 @@ app.use('/ta01', ta01Routes)
    .use('/ta04', ta04Routes)
    .use(projectRoutes)
    .use(authRoutes)
+   .use(adminRoutes)
    .get('/', (req, res, next) => {
      // This is the primary index, always handled last. 
      res.render('pages/index', {title: 'Welcome to my CSE341 repo', path: '/'});
